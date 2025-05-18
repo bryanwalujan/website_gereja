@@ -115,7 +115,7 @@ class ChurchResource extends Resource
                     ->label('Nama Gereja'),
                 Tables\Columns\TextColumn::make('about_us')
                     ->limit(50)
-                    ->tooltip(fn($record) => $record->about_us)
+                    ->tooltip(fn ($record) => $record->about_us)
                     ->label('Tentang Kami'),
                 Tables\Columns\TextColumn::make('region')
                     ->sortable()

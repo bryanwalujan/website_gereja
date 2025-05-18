@@ -16,20 +16,20 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 
-class AdminPanelProvider extends PanelProvider
+class ChurchAdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('admin')
-            ->path('admin')
+            ->id('church_admin')
+            ->path('church-admin')
             ->login()
             ->colors([
                 'primary' => Color::hex('#FFCC33'),
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverResources(in: app_path('Filament/ChurchAdmin/Resources'), for: 'App\\Filament\\ChurchAdmin\\Resources')
+            ->discoverPages(in: app_path('Filament/ChurchAdmin/Pages'), for: 'App\\Filament\\ChurchAdmin\\Pages')
+            ->discoverWidgets(in: app_path('Filament/ChurchAdmin/Widgets'), for: 'App\\Filament\\ChurchAdmin\\Widgets')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -41,6 +41,7 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([Authenticate::class]);
+            ->authMiddleware([Authenticate::class])
+            ->authGuard('church_admin');
     }
 }

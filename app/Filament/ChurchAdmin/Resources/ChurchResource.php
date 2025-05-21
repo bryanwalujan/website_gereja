@@ -4,11 +4,13 @@ namespace App\Filament\ChurchAdmin\Resources;
 
 use App\Filament\ChurchAdmin\Resources\ChurchResource\Pages;
 use App\Models\Church;
+use App\Models\Workshop;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Auth;
 
 class ChurchResource extends Resource
@@ -34,8 +36,8 @@ class ChurchResource extends Resource
                 Forms\Components\Select::make('region')
                     ->options([
                         'Jawa' => 'Jawa',
-                        'Sumatra' => 'Sumatra',
-                        'Kalimantan' => 'Kalimantan',
+                        'Kalimantan-Sumatra' => 'Kalimantan-Sumatra',
+                        'Sulawesi-Papua' => 'Sulawesi-Papua',
                     ])
                     ->required()
                     ->label('Regional'),
@@ -140,6 +142,13 @@ class ChurchResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->label('Dibuat Pada'),
+                Tables\Columns\TextColumn::make('workshops_count')
+                    ->label('Jumlah Workshop')
+                    ->getStateUsing(fn ($record) => Workshop::where('church_id', $record->id)->count()),
+                Tables\Columns\TextColumn::make('view_workshops')
+                    ->label('Lihat Workshop')
+                    ->url(fn ($record) => "/church-admin/workshops?tableFilters[region][value]={$record->region}")
+                    ->color('primary'),
             ])
             ->filters([
                 //

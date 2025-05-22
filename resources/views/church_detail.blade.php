@@ -20,6 +20,7 @@
     <p><strong>Jadwal Ibadah:</strong> {{ $church->worship_schedule }}</p>
     <p><strong>Target Murid/Tahun:</strong> {{ $church->student_target }}</p>
     <p><strong>Jumlah Jemaat:</strong> {{ $church->congregation_count }}</p>
+    <p><strong>Nama Pendeta:</strong> {{ $church->pastor_name }}</p>
     <p><strong>Doa Pokok:</strong> {{ $church->prayer_points }}</p>
     <p><strong>Tahun Berdiri:</strong> {{ $church->established_year }}</p>
     @if ($church->church_image)

@@ -13,7 +13,7 @@
         @foreach ($churches as $church)
             <li>
                 <a href="{{ route('public.church.show', $church->id) }}">
-                    {{ $church->name }} ({{ $church->region }}) - Jemaat: {{ $church->congregation_count }}
+                    {{ $church->name }} ({{ $church->region }}) - Jemaat: {{ $church->congregation_count }} - Pendeta: {{ $church->pastor_name }}
                 </a>
             </li>
         @endforeach

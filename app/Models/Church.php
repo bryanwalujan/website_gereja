@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Church extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'name',
         'region',
@@ -17,6 +14,7 @@ class Church extends Model
         'mission',
         'church_image',
         'pastor_image',
+        'pastor_name',
         'address',
         'maps',
         'phone',

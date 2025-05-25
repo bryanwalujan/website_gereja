@@ -3,6 +3,7 @@
 namespace App\Filament\ChurchAdmin\Resources;
 
 use App\Filament\ChurchAdmin\Resources\WorkshopResource\Pages;
+use App\Filament\ChurchAdmin\Resources\WorkshopResource\RelationManagers\RegistrationsRelationManager;
 use App\Models\Workshop;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -37,9 +38,18 @@ class WorkshopResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->label('Lokasi'),
-                Forms\Components\DatePicker::make('date')
+                Forms\Components\DatePicker::make('start_date')
                     ->required()
-                    ->label('Tanggal'),
+                    ->label('Tanggal Mulai'),
+                Forms\Components\DatePicker::make('end_date')
+                    ->required()
+                    ->label('Tanggal Selesai'),
+                Forms\Components\TimePicker::make('start_time')
+                    ->required()
+                    ->label('Jam Mulai'),
+                Forms\Components\TimePicker::make('end_time')
+                    ->required()
+                    ->label('Jam Selesai'),
                 Forms\Components\TextInput::make('speaker')
                     ->required()
                     ->maxLength(255)
@@ -54,8 +64,30 @@ class WorkshopResource extends Resource
                     ->maxSize(2048)
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif'])
                     ->label('Foto Pembicara')
+                    ->columnSpanFull()
+                    ->required(),
+                Forms\Components\TextInput::make('youtube_link')
+                    ->url()
+                    ->label('Link YouTube')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('participant_count')
+                    ->numeric()
+                    ->default(0)
+                    ->label('Jumlah Peserta')
+                    ->minValue(0),
+                Forms\Components\TextInput::make('max_participants')
+                    ->numeric()
+                    ->label('Maksimal Peserta')
+                    ->minValue(1),
+                Forms\Components\FileUpload::make('material_file')
+                    ->directory('workshop_materials')
+                    ->acceptedFileTypes(['application/pdf'])
+                    ->maxSize(10240)
+                    ->label('File Materi (PDF)')
                     ->columnSpanFull(),
-            ]);
+            ])
+            ->statePath('data')
+            ->model(Workshop::class);
     }
 
     public static function table(Table $table): Table
@@ -70,10 +102,20 @@ class WorkshopResource extends Resource
                     ->label('Regional'),
                 Tables\Columns\TextColumn::make('location')
                     ->label('Lokasi'),
-                Tables\Columns\TextColumn::make('date')
+                Tables\Columns\TextColumn::make('start_date')
                     ->date()
                     ->sortable()
-                    ->label('Tanggal'),
+                    ->label('Tanggal Mulai'),
+                Tables\Columns\TextColumn::make('end_date')
+                    ->date()
+                    ->sortable()
+                    ->label('Tanggal Selesai'),
+                Tables\Columns\TextColumn::make('start_time')
+                    ->time()
+                    ->label('Jam Mulai'),
+                Tables\Columns\TextColumn::make('end_time')
+                    ->time()
+                    ->label('Jam Selesai'),
                 Tables\Columns\TextColumn::make('speaker')
                     ->label('Pembicara'),
                 Tables\Columns\TextColumn::make('topic')
@@ -83,6 +125,14 @@ class WorkshopResource extends Resource
                 Tables\Columns\ImageColumn::make('speaker_photo')
                     ->label('Foto Pembicara')
                     ->disk('public'),
+                Tables\Columns\TextColumn::make('youtube_link')
+                    ->label('Link YouTube')
+                    ->url(fn ($record) => $record->youtube_link)
+                    ->openUrlInNewTab(),
+                Tables\Columns\TextColumn::make('participant_count')
+                    ->label('Jumlah Peserta'),
+                Tables\Columns\TextColumn::make('max_participants')
+                    ->label('Maksimal Peserta'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('region')
@@ -101,6 +151,13 @@ class WorkshopResource extends Resource
                     //
                 ]),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            RegistrationsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array

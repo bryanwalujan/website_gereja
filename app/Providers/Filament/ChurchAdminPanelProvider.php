@@ -27,6 +27,7 @@ class ChurchAdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::hex('#FFCC33'),
             ])
+            ->default()
             ->discoverResources(in: app_path('Filament/ChurchAdmin/Resources'), for: 'App\\Filament\\ChurchAdmin\\Resources')
             ->discoverPages(in: app_path('Filament/ChurchAdmin/Pages'), for: 'App\\Filament\\ChurchAdmin\\Pages')
             ->discoverWidgets(in: app_path('Filament/ChurchAdmin/Widgets'), for: 'App\\Filament\\ChurchAdmin\\Widgets')

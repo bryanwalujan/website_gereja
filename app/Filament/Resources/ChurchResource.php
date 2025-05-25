@@ -40,6 +40,10 @@ class ChurchResource extends Resource
                 Forms\Components\FileUpload::make('pastor_image')
                     ->image()
                     ->required(),
+                Forms\Components\TextInput::make('pastor_name')
+                    ->label('Nama Pendeta')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\Textarea::make('address')
                     ->columnSpanFull(),
                 Forms\Components\Textarea::make('maps')
@@ -75,6 +79,9 @@ class ChurchResource extends Resource
                 Tables\Columns\TextColumn::make('region'),
                 Tables\Columns\ImageColumn::make('church_image'),
                 Tables\Columns\ImageColumn::make('pastor_image'),
+                Tables\Columns\TextColumn::make('pastor_name')
+                    ->label('Nama Pendeta')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')

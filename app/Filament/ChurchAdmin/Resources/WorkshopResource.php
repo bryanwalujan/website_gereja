@@ -3,6 +3,7 @@
 namespace App\Filament\ChurchAdmin\Resources;
 
 use App\Filament\ChurchAdmin\Resources\WorkshopResource\Pages;
+use App\Filament\ChurchAdmin\Resources\WorkshopResource\RelationManagers\RegistrationsRelationManager;
 use App\Models\Workshop;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -60,7 +61,7 @@ class WorkshopResource extends Resource
                 Forms\Components\FileUpload::make('speaker_photo')
                     ->image()
                     ->directory('workshop_speaker_photos')
-                    ->maxSize(2048) // 2MB
+                    ->maxSize(2048)
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif'])
                     ->label('Foto Pembicara')
                     ->columnSpanFull()
@@ -81,7 +82,7 @@ class WorkshopResource extends Resource
                 Forms\Components\FileUpload::make('material_file')
                     ->directory('workshop_materials')
                     ->acceptedFileTypes(['application/pdf'])
-                    ->maxSize(10240) // 10MB
+                    ->maxSize(10240)
                     ->label('File Materi (PDF)')
                     ->columnSpanFull(),
             ])
@@ -150,6 +151,13 @@ class WorkshopResource extends Resource
                     //
                 ]),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            RegistrationsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
